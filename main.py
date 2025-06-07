@@ -1,7 +1,6 @@
 import pandas as pd
 import argparse
 import requests
-import datetime
 from matplotlib import pyplot as plt
 
 
@@ -56,7 +55,7 @@ def main():
     parser.add_argument('city_name', help='Название города показатели погоды, которого вы хотите увидеть (на английском)', type=str)
     parser.add_argument('start_date', help='Начальная дата прогноза(YYYY-MM-DD)', type=str)
     parser.add_argument('end_date', help='Конечная дата прогноза(YYYY-MM-DD)', type=str)
-    parser.add_argument('сountry_code', help='Код города погоду, которого вы хотите узнать', type=str)
+    parser.add_argument('сountry_code', help='Код города погоду, которого вы хотите узнать (ЕЕ)', type=str)
     args = parser.parse_args()
 
     city_name = args.city_name
