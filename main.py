@@ -1,10 +1,14 @@
 import pandas as pd
-import requests 
+import argparse
+import requests
+import datetime
 from matplotlib import pyplot as plt
 
 
-def get_city_coord(city_name):
-    params_coord = {'where': f'place_name="{city_name}" and country_code: "ES"'}
+def get_city_coord(city_name, country_code):
+    params_coord = {
+        'where': f'place_name="{city_name}" and country_code: "{country_code}"'
+    }
 
     url_coord = 'https://data.opendatasoft.com/api/explore/v2.1/catalog/datasets/geonames-postal-code@public/records'
     response = requests.get(url_coord, params=params_coord)
@@ -43,10 +47,23 @@ def make_the_diog(meteo_date, city_name):
 
 
 def main():
-    city_name = input('Введите название города показатели погоды, которого вы хотите увидеть (на английском):') #"Los Angeles"
-    start_date = input("Введите начальную дату прогноза(YYYY-MM-DD):") #"2020-06-01"
-    end_date = input("Введите конечную дату прогноза(YYYY-MM-DD):") #"2025-06-05"
-    coord = get_city_coord(city_name)
+    parser = argparse.ArgumentParser(
+        prog='main.py',
+        description='''
+        Описание что делает программа
+        '''
+    )
+    parser.add_argument('city_name', help='Название города показатели погоды, которого вы хотите увидеть (на английском)', type=str)
+    parser.add_argument('start_date', help='Начальная дата прогноза(YYYY-MM-DD)', type=str)
+    parser.add_argument('end_date', help='Конечная дата прогноза(YYYY-MM-DD)', type=str)
+    parser.add_argument('сountry_code', help='Код города погоду, которого вы хотите узнать', type=str)
+    args = parser.parse_args()
+
+    city_name = args.city_name
+    start_date = args.start_date
+    end_date = args.end_date
+    country_code = args.сountry_code
+    coord = get_city_coord(city_name, country_code)
     meteo_date = get_meteo_date(coord, start_date, end_date)
     make_the_diog(meteo_date, city_name)
 
